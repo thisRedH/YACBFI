@@ -4,7 +4,7 @@
 #include "utils.h"
 
 #ifndef YACBFI_VERSION
-#define YACBFI_VERSION  "1.0.1"
+#define YACBFI_VERSION  "1.0.2"
 #endif
 
 int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index) {
@@ -36,7 +36,7 @@ int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index) {
                 return _cmds[i].intern_alias;
             }
         }
-        fprintf(stderr, "Unknown option: '%s'\n", _optname);
+        fprintf(stderr, "Unknown option: '%c'\n", _optname);
         return '?';
     }
     return '?';
@@ -83,7 +83,7 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
             break;
         case 'v':
             printf("\nYACBFI - Made by RedH - %s\n", YACBFI_VERSION);
-            printf("This software is published under the MIT license.\n See the LICENSE file for more information.\n\n");
+            printf("This software is published under the MIT license.\nSee the LICENSE file for more information.\n\n");
             return 2;
             break;
         case '?':
