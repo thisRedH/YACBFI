@@ -26,7 +26,7 @@ Command cmds[] = {
     {NULL, 0, 0, NULL, 0}
 };
 
-#define ALLOC_MEM               (size_t)512
+#define ALLOC_MEM               (size_t)5
 #define REALLOC_MEM             (size_t)1024
 
 int main(int argc, char const *argv[]) {
@@ -35,12 +35,11 @@ int main(int argc, char const *argv[]) {
     size_t program_len;
 
     size_t memory_size = ALLOC_MEM;
-    unsigned char* memory = (char*)calloc(sizeof(unsigned char), memory_size); ERR_ALLOC(memory)
+    unsigned char* memory = (char*) calloc(sizeof(unsigned char), memory_size); ERR_ALLOC(memory)
     size_t mem_ptr = 0;
     unsigned char current_instr;
 
     int err = handleArgs(argc, argv, cmds, &filename);
-
     if (err == 1) { ERR("Failed to Initialize!\n") }
     if (err == 2) { return 0; }
     else if (filename == NULL) {
@@ -54,11 +53,11 @@ int main(int argc, char const *argv[]) {
 
 
     for (int i = 0; i < program_len; i++) {
-        // Dynamicly realloc if the Memory gets too small
+        // Dynamicly alloc if the Memory gets too small
         if (mem_ptr >= memory_size) {
+            unsigned char* new_memory = (unsigned char*) calloc(sizeof(unsigned char), (memory_size) + REALLOC_MEM); ERR_ALLOC(new_memory)
+            memcpy(new_memory, memory, memory_size);
             memory_size += REALLOC_MEM;
-            unsigned char* new_memory = (unsigned char*)calloc(sizeof(unsigned char), memory_size); ERR_ALLOC(new_memory)
-            memcpy(new_memory, memory, mem_ptr);
             free(memory);
             memory = new_memory;
         }
