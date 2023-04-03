@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "utils.h"
 
@@ -13,12 +14,11 @@
  * \param _file The file to open
  * \param _prog Return value for the Brainfuck code string
  * \param _len Return value for length of the Brainfuck code string
- * \return Error 1, Success 0
+ * \return 0 = Success, 1 = Err
  */
 int loadProgr(const char* _file, char** _prog, size_t* _len);
 
 Command cmds[] = {
-    // Informatical args like help or version come before all other to quit the program before making anything else
     {"yacbfi",  0,      COMMAND_NO_ARG,  "[options]",                       0},
     {"help",    'h',    COMMAND_NO_ARG,  "Shows this message",              'h'},
     {"version", 'v',    COMMAND_NO_ARG,  "Show the current version number", 'v'},
@@ -26,7 +26,7 @@ Command cmds[] = {
     {NULL, 0, 0, NULL, 0}
 };
 
-#define ALLOC_MEM               (size_t)5
+#define ALLOC_MEM               (size_t)512
 #define REALLOC_MEM             (size_t)1024
 
 int main(int argc, char const *argv[]) {
@@ -34,17 +34,20 @@ int main(int argc, char const *argv[]) {
     char* program;
     size_t program_len;
 
-    size_t memory_size = ALLOC_MEM;
-    unsigned char* memory = (char*) calloc(sizeof(unsigned char), memory_size); ERR_ALLOC(memory)
+    size_t memory_length = ALLOC_MEM;
+    unsigned char* memory = (char*) calloc(memory_length, sizeof(unsigned char));
+    if (memory == NULL) { ERR_ALLOC(); }
+
     size_t mem_ptr = 0;
-    unsigned char current_instr;
 
     int err = handleArgs(argc, argv, cmds, &filename);
-    if (err == 1) { ERR("Failed to Initialize!\n") }
+    if (err == 1) { ERR("Failed to Initialize!"); }
     if (err == 2) { return 0; }
     else if (filename == NULL) {
         printf("Input your programm (max. 1000 chars): ");
-        program = (char*) malloc(sizeof(char) * 1024); ERR_ALLOC(program)
+        program = (char*) malloc(sizeof(char) * 1024);
+        if (program == NULL) { ERR_ALLOC(); }
+
         fgets(program, 1024, stdin);
         program_len = strlen(program);
     } else {
@@ -54,16 +57,16 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < program_len; i++) {
         // Dynamicly alloc if the Memory gets too small
-        if (mem_ptr >= memory_size) {
-            unsigned char* new_memory = (unsigned char*) calloc(sizeof(unsigned char), (memory_size) + REALLOC_MEM); ERR_ALLOC(new_memory)
-            memcpy(new_memory, memory, memory_size);
-            memory_size += REALLOC_MEM;
-            free(memory);
-            memory = new_memory;
+        if (mem_ptr >= memory_length) {
+            int reerr = recallocMem((void**)&memory, memory_length,
+                        sizeof(unsigned char), (memory_length + REALLOC_MEM));
+            if (reerr != 0) { ERR_ALLOC(); }
+
+            memory_length += REALLOC_MEM;
         }
 
-        current_instr = program[i];
-        switch(current_instr) {
+        // Process the current instruction
+        switch(program[i]) {
             case '+':
                 memory[mem_ptr] += 1;
                 break;
@@ -122,16 +125,18 @@ int main(int argc, char const *argv[]) {
 
 int loadProgr(const char* _file_name, char** _prog, size_t* _len) {
     FILE* _fp = fopen(_file_name, "rb");
-    ERR_FOPEN(_fp, _file_name)
+    if (_fp == NULL) { ERR_FOPEN(_file_name); return 1; }
 
     fseek(_fp, 0, SEEK_END);
     long _flen = ftell(_fp);
     rewind(_fp);
     *_len = _flen + 1;
 
-    *_prog = (char*) malloc(sizeof(char) * (_flen + 1)); ERR_ALLOC(*_prog)
+    *_prog = (char*) malloc(sizeof(char) * (_flen + 1));
+    if (*_prog == NULL) { ERR_ALLOC(); return 1; }
 
     fread(*_prog, sizeof(char), _flen, _fp);
+    // Set 0 Terminator
     (*_prog)[_flen] = '\0';
 
     fclose(_fp);

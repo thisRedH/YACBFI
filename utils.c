@@ -4,7 +4,7 @@
 #include "utils.h"
 
 #ifndef YACBFI_VERSION
-#define YACBFI_VERSION  "1.0.2"
+#define YACBFI_VERSION  "1.0.5"
 #endif
 
 int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index) {
@@ -45,7 +45,7 @@ int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index) {
 
 void printhelp(Command _cmds[]) {
     // Print the Usage (Usage: Name [help])
-    printf("Usage: %s %s\n", _cmds[0].name, _cmds[0].help);
+    printf("\nUsage: %s %s\n", _cmds[0].name, _cmds[0].help);
 
     // Print all helps (   -a, --name {spaces} help)
     for (int i = 1; _cmds[i].name != NULL; i++) {
@@ -82,8 +82,8 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
             _index++;
             break;
         case 'v':
-            printf("\nYACBFI - Made by RedH - %s\n", YACBFI_VERSION);
-            printf("This software is published under the MIT license.\nSee the LICENSE file for more information.\n\n");
+            printf("\nYACBFI - Made by RedH - %s\n\n", YACBFI_VERSION);
+            printf("This software is published under the MIT license.\nSee the LICENSE file for more information.\n");
             return 2;
             break;
         case '?':
@@ -93,5 +93,22 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
             break;
         }
     }
+    return 0;
+}
+
+int recallocMem(void** _mem, size_t _oldNitems, size_t _size, size_t _newNitems) {
+    if (_newNitems <= _oldNitems) {
+        return 0;
+    }
+
+    void* _new_memory = calloc(_newNitems, _size);
+    if (_new_memory == NULL) {
+        return 1;
+    }
+
+    memcpy(_new_memory, *_mem, _oldNitems);
+    free(*_mem);
+    *_mem = _new_memory;
+
     return 0;
 }
