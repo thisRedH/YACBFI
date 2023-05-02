@@ -24,5 +24,9 @@ To test it, I highly recommend checking out Daniel B. Cristofani's [Brainf*ck Pr
 $ yacbfi -f {file.bf}
 ```
 
+## Features
+- Full Brainf*ck Support
+- Dynamic Memory Allocation
+
 ## License
 This software is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).

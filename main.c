@@ -9,11 +9,11 @@
 #include "utils.h"
 
 /**
- * \brief Loads a Brainfuck file and puts it into _prog
+ * \brief Loads a Brainf*ck file and puts it into _prog
  * 
  * \param _file The file to open
- * \param _prog Return value for the Brainfuck code string
- * \param _len Return value for length of the Brainfuck code string
+ * \param _prog Return value for the Brainf*ck code string
+ * \param _len Return value for length of the Brainf*ck code string
  * \return 0 = Success, 1 = Err
  */
 int loadProgr(const char* _file, char** _prog, size_t* _len);
@@ -136,7 +136,7 @@ int loadProgr(const char* _file_name, char** _prog, size_t* _len) {
     if (*_prog == NULL) { ERR_ALLOC(); return 1; }
 
     fread(*_prog, sizeof(char), _flen, _fp);
-    // Set 0 Terminator
+    // Set null Terminator
     (*_prog)[_flen] = '\0';
 
     fclose(_fp);

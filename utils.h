@@ -23,13 +23,10 @@ typedef struct {
     char intern_alias;
 } Command;
 
-
 /**
- * \param _cmds A list of all possible args. First has to be Program Name. The last has to be NULL (ptr) and 0 (char) termiantet
- * \param _filename Return value
- * \return 0 = Success, 1 = Err, 2 = End programm no Err
+ * \brief Prints the help message
  */
-int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename);
+void printhelp(Command _cmds[]);
 
 /**
  * \brief Gets the cli args in a while loop like getopts()
@@ -41,9 +38,11 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
 int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index);
 
 /**
- * \brief Prints the help message
+ * \param _cmds A list of all possible args. First has to be Program Name. The last has to be NULL (ptr) and 0 (char) termiantet
+ * \param _filename Return value
+ * \return 0 = Success, 1 = Err, 2 = End programm no Err
  */
-void printhelp(Command _cmds[]);
+int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename);
 
 /**
  * \brief Reallocate a block of memory to make it bigger (smaller not supportet). New space Iitialiced to 0 (using calloc)

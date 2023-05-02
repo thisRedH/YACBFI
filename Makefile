@@ -6,8 +6,10 @@ OBJS = $(SRCS:.c=.o)
 
 ifeq ($(OS),Windows_NT)
 	TARGET = yacbfi.exe
+	REM = del /Q /F
 else
 	TARGET = yacbfi
+	REM = rm -rf
 endif
 
 all: $(TARGET)
@@ -19,4 +21,4 @@ $(TARGET) : $(OBJS)
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o $(TARGET)
+	$(REM) *.o $(TARGET)
