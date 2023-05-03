@@ -19,7 +19,8 @@ $ gcc -std=c99 -O3 -o yacbfi.exe main.c utils.c
 
 ## Usage
 There is a `Hello Worl!` sample (sample/hello.bf)\
-To test it, I highly recommend checking out Daniel B. Cristofani's [Brainf*ck Programs](http://brainfuck.org)
+To test it, I highly recommend checking out Daniel B. Cristofani's [Brainf*ck Programs](http://brainfuck.org)\
+<sup>Espessialy [test.b](http://brainfuck.org/tests.b) for "Feature" testing</sup>
 ```bash
 $ yacbfi -f {file.bf}
 ```
@@ -27,6 +28,12 @@ $ yacbfi -f {file.bf}
 ## Features
 - Full Brainf*ck Support
 - Dynamic Memory Allocation
+
+## Todo's
+ - [ ] Option to have different size of cells ([Test](https://esolangs.org/wiki/Brainfuck#Cell_Size))
+ - [ ] Settable Size to enable wrapping (Dynamic Memory turns Off)
+ - [ ] `+++++[>+++++++>++<<-]>.>.[` Should give error message "unmatched \]"
+ - [ ] `+++++[>+++++++>++<<-]>.>.][` Should give error message "unmatched \["
 
 ## License
 This software is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
