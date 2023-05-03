@@ -64,7 +64,7 @@ int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index) {
     return '?';
 }
 
-int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename) {
+int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename, size_t* _cell_size) {
     *_filename = NULL;
     
     if (_argc <= 1) { return 0; }
@@ -85,6 +85,15 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
             printf("\nYACBFI - Made by RedH - %s\n\n", YACBFI_VERSION);
             printf("This software is published under the MIT license.\nSee the LICENSE file for more information.\n");
             return 2;
+            break;
+        case 's':
+            int inp_size = atoi(_argv[_index]);
+            *_cell_size = (size_t)(inp_size / 8);
+            if (inp_size != 8 && inp_size != 16 && inp_size != 32 && inp_size != 64) {
+                ERRPP("%d is not a valid bit size to use!\nPlease use 8, 16, 32 or 64", (int)inp_size);
+                return 1;
+            }
+            _index++;
             break;
         case '?':
             return 1;

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include <errno.h>
 
 #include "utils.h"
@@ -19,10 +20,11 @@
 int loadProgr(const char* _file, char** _prog, size_t* _len);
 
 Command cmds[] = {
-    {"yacbfi",  0,      COMMAND_NO_ARG,  "[options]",                       0},
-    {"help",    'h',    COMMAND_NO_ARG,  "Shows this message",              'h'},
-    {"version", 'v',    COMMAND_NO_ARG,  "Show the current version number", 'v'},
-    {"file",    'f',    COMMAND_HAS_ARG, "Brainf*ck File to use",           'f'},
+    {"yacbfi",      0,      COMMAND_NO_ARG,  "[options]",                       0},
+    {"help",        'h',    COMMAND_NO_ARG,  "Shows this message",              'h'},
+    {"version",     'v',    COMMAND_NO_ARG,  "Show the current version number", 'v'},
+    {"file",        'f',    COMMAND_HAS_ARG, "Brainf*ck File to use",           'f'},
+    {"cell_size",   's',    COMMAND_HAS_ARG, "The Bit amount to use per Cell (Standart: 8Bit)",   's'},
     {NULL, 0, 0, NULL, 0}
 };
 
@@ -32,16 +34,12 @@ Command cmds[] = {
 int main(int argc, char const *argv[]) {
     const char* filename;
     char* program;
-    size_t program_len;
+    size_t program_len = 0;
 
-    size_t memory_length = ALLOC_MEM;
-    unsigned char* memory = (char*) calloc(memory_length, sizeof(unsigned char));
-    if (memory == NULL) { ERR_ALLOC(); }
+    size_t cell_size = 1;
 
-    size_t mem_ptr = 0;
-
-    int err = handleArgs(argc, argv, cmds, &filename);
-    if (err == 1) { ERR("Failed to Initialize!"); }
+    int err = handleArgs(argc, argv, cmds, &filename, &cell_size);
+    if (err == 1) { ERR("Failed to Initialize!"); return 1; }
     if (err == 2) { return 0; }
     else if (filename == NULL) {
         printf("Input your programm (max. 1000 chars): ");
@@ -54,12 +52,18 @@ int main(int argc, char const *argv[]) {
         loadProgr(filename, &program, &program_len);
     }
 
+    size_t memory_length = ALLOC_MEM;
+    uint8_t* memory = (char*) calloc(ALLOC_MEM, sizeof(uint8_t));
+    if (memory == NULL) { ERR_ALLOC(); }
+
+    size_t mem_ptr = 0;
+
 
     for (int i = 0; i < program_len; i++) {
         // Dynamicly alloc if the Memory gets too small
         if (mem_ptr >= memory_length) {
             int reerr = recallocMem((void**)&memory, memory_length,
-                        sizeof(unsigned char), (memory_length + REALLOC_MEM));
+                        sizeof(uint8_t), (memory_length + REALLOC_MEM));
             if (reerr != 0) { ERR_ALLOC(); }
 
             memory_length += REALLOC_MEM;

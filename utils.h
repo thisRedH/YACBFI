@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define ERR(msg)                fprintf(stderr, "\n\n%s\n\n", msg)
+#define ERR(msg)                fprintf(stderr, "\n\n"msg"\n\n")
+#define ERRPP(msg, ...)         fprintf(stderr, "\n\n"msg"\n\n", __VA_ARGS__)
 #define ERR_ALLOC()             fprintf(stderr, "\n\nError reallocating new Memory: %s\n\n", strerror(errno))
 #define ERR_FOPEN(fn)           fprintf(stderr, "\n\nCould not open the file \"%s\": %s\n\n", fn, strerror(errno))
 
@@ -40,9 +41,10 @@ int getargs(int _argc, char const *_argv[], Command _cmds[], int* _index);
 /**
  * \param _cmds A list of all possible args. First has to be Program Name. The last has to be NULL (ptr) and 0 (char) termiantet
  * \param _filename Return value
+ * \param _cell_size Return value
  * \return 0 = Success, 1 = Err, 2 = End programm no Err
  */
-int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename);
+int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _filename, size_t* _cell_size);
 
 /**
  * \brief Reallocate a block of memory to make it bigger (smaller not supportet). New space Iitialiced to 0 (using calloc)
