@@ -71,6 +71,7 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
 
     int _opt;
     int _index = 1;
+    int inp_size = 0;
     while ((_opt = getargs(_argc, _argv, _cmds, &_index)) != -1) {
         switch (_opt) {
         case 'h':
@@ -87,7 +88,7 @@ int handleArgs(int _argc, char const *_argv[], Command _cmds[], const char** _fi
             return 2;
             break;
         case 's':
-            int inp_size = atoi(_argv[_index]);
+            inp_size = atoi(_argv[_index]);
             *_cell_size = (size_t)(inp_size / 8);
             if (inp_size != 8 && inp_size != 16 && inp_size != 32 && inp_size != 64) {
                 ERRPP("%d is not a valid bit size to use!\nPlease use 8, 16, 32 or 64", (int)inp_size);
