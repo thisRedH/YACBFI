@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
     }
 
     size_t memory_length = ALLOC_MEM;
-    uint8_t* memory = (char*) calloc(ALLOC_MEM, sizeof(uint8_t));
+    uint8_t* memory = (uint8_t*) calloc(ALLOC_MEM, sizeof(uint8_t));
     if (memory == NULL) { ERR_ALLOC(); }
 
     size_t mem_ptr = 0;

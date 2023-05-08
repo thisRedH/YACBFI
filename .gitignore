@@ -1,4 +1,6 @@
 *.o
+*.d
 *.exe
 *.out
 .vscode
+bin

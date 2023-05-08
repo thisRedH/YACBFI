@@ -5,7 +5,7 @@ I made this not because there are so few out there... rather because I wanted to
 It was harder than I could imagine. I relie so heavily upon `std::vector`, classes, and OOP that it was a real challenge.
 
 ## Requirements
- - A compiler that is capable of C99 (GCC, Clang, MSVC, ...)
+ - A compiler that is capable of C99 (GCC Testet)
 ### Additionally
  - GNU Make
 
@@ -14,7 +14,7 @@ It was harder than I could imagine. I relie so heavily upon `std::vector`, class
 Just type `make`. Otherwise, use `make CC={compiler name}` to change the compiler.
 ### With GCC:
 ```bash
-$ gcc -std=c99 -O3 -o yacbfi.exe main.c utils.c
+$ gcc -std=c99 -O3 -o yacbfi.exe src/main.c src/utils.c
 ```
 
 ## Usage
