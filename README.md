@@ -18,7 +18,7 @@ $ gcc -std=c99 -O3 -o yacbfi.exe src/main.c src/utils.c
 ```
 
 ## Usage
-There is a `Hello Worl!` sample (sample/hello.bf)\
+There is a `Hello World!` sample (sample/hello.bf)\
 To test it, I highly recommend checking out Daniel B. Cristofani's [Brainf*ck Programs](http://brainfuck.org)\
 <sup>Espessialy [test.b](http://brainfuck.org/tests.b) for "Feature" testing</sup>
 ```bash
