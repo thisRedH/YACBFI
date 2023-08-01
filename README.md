@@ -2,7 +2,7 @@
 
 YACBFI is yet another [Brainf*ck](https://www.wikipedia.org/wiki/Brainfuck) interpreter written in [C99](https://www.wikipedia.org/wiki/C99).\
 I made this not because there are so few out there... rather because I wanted to learn C coming from a C++ background.\
-It was harder than I could imagine. I relie so heavily upon `std::vector`, classes, and OOP that it was a real challenge.
+It was harder than I could imagine. I relie so heavily upon C++11 Features and OOP that it was a real challenge.
 
 ## Requirements
  - A compiler that is capable of C99 (GCC Testet)
