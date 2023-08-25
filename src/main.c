@@ -59,7 +59,7 @@ int main(int argc, char const *argv[]) {
     size_t mem_ptr = 0;
 
 
-    for (int i = 0; i < program_len; i++) {
+    for (size_t i = 0; i < program_len; i++) {
         // Dynamicly alloc if the Memory gets too small
         if (mem_ptr >= memory_length) {
             int reerr = recallocMem((void**)&memory, memory_length,
