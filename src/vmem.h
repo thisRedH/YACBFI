@@ -1,5 +1,6 @@
 
 #include <stdint.h>
+#include <stddef.h>
 
 /**
  * \brief vmem error's

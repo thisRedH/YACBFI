@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,21 +10,19 @@
 
 
 int main(int argc, char const *argv[]) {
-    size_t pcur, mcur;                    // Program/Instruction and Memory Cursor/Pointer
-    char* pinst;                          // Program Instructions
+    size_t pcur = 0, mcur = 0;                  // Program Cursor, Memory Cursor
+    char* pinst;                                // Program Instructions
     vmem* vmem;
 
     //TODO: Implement an argparser
 
     // Initialization
-    pcur, mcur = 0;
     vmem = vmem_init(VMEM_TYPE_8, MEM_INIT_SIZE);
     if (errno == VMEM_EALLOC) goto error;
 
     //TODO: Load instruction from file from args or from stdin
     pinst = malloc(520*sizeof(*pinst));
     scanf("%519s", pinst);
-    printf("%s", pinst);
 
     for (pcur = 0; pcur < 500; pcur++) {
         //TODO: Dynamicly alloc if the Memory gets too small
